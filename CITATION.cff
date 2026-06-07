@@ -1,0 +1,29 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: L#Square Mealy
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Wouter
+    family-names: Joosen
+repository-code: 'https://github.com/WoJoosen/l-sharp-square-mealy'
+abstract: >-
+  Code repository for L#Square algorithm for learning
+  incomplete Mealy Machines.
+keywords:
+  - L#
+  - L#Square
+  - L*
+  - Active Automata Learning
+  - AAL
+  - AALpy
+  - Mealy Machine
+  - Model Learning
+license: MIT
+commit: a84daf8
+version: '1.0'
+date-released: '2026-06-07'
