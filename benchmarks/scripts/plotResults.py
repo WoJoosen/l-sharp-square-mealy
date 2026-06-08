@@ -105,7 +105,7 @@ def plot_random_4x4(csv_path, output_dir):
             data = df[df['Alphabet'] == alphabet_size].sort_values('States')
             x = data['States'].values
             
-            for alg, label, marker in [('L#Square', 'L#Square', 'o'), ('AALpy', 'AALpy L#', 's')]:
+            for alg, label, marker in [('L#Square', 'L#Square', 's'), ('AALpy', 'AALpy L#', 'o')]:
                 y_mean = data[f'{alg}_{metric_key}_Mean'].values
                 y_std = data[f'{alg}_{metric_key}_Std'].values
                 ax.plot(x, y_mean, marker=marker, color=colors[alg], label=label, linewidth=2.5, markersize=6)
