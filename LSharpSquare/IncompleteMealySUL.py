@@ -23,7 +23,7 @@ class MealySUL(SUL):
     def post(self):
         return tuple(self.outputs)
 
-    def query(self, word: tuple) -> list:
+    def query(self, word: tuple):
         """
         Performs an output query on the SUL. Before the query, pre() method is called and after the query post()
         method is called. Each letter in the word (input in the input sequence) is executed using the step method.
@@ -41,12 +41,13 @@ class MealySUL(SUL):
         for letter in word:
             self.step(letter)
         out = self.post()
+        final_out = out[-1] if out else None
         self.num_queries += 1
         self.num_successful_queries += 1
         self.num_steps += len(word)
-        if isinstance(out, (list, tuple)) and len(out) > 0 and all(val in (None, "unknown") for val in out):
+        if final_out in (None, "unknown"):
             self.num_successful_queries -= 1
-        return out
+        return final_out
 
 
 class IncompleteMealySUL(MealySUL):

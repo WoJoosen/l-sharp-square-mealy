@@ -494,14 +494,10 @@ class ObservationTreeSquare:
             
             if next_node is None:
                 if query_mode == "full" or (inp_num == len(inputs) - 1 and query_mode == "final"):
-                    output_seq = self.sul.query(tuple(inputs[:inp_num + 1]))
-                    if output_seq:
-                        new_output = output_seq[-1]
-                        outputs.append(new_output)
-                        if new_output and new_output != "unknown":
-                            queried = True
-                    else:
-                        outputs.append(None)
+                    new_output = self.sul.query(tuple(inputs[:inp_num + 1]))
+                    outputs.append(new_output)
+                    if new_output and new_output != "unknown":
+                        queried = True
                 else:
                     outputs.append(None)
                 current_node = None
@@ -509,14 +505,10 @@ class ObservationTreeSquare:
                 transition_output = current_node.get_output(inp)
                 if transition_output is None and (
                         query_mode == "full" or (inp_num == len(inputs) - 1 and query_mode == "final")):
-                    output_seq = self.sul.query(tuple(inputs[:inp_num + 1]))
-                    if output_seq:
-                        new_output = output_seq[-1]
-                        outputs.append(new_output)
-                        if new_output and new_output != "unknown":
-                            queried = True
-                    else:
-                        outputs.append(None)
+                    new_output = self.sul.query(tuple(inputs[:inp_num + 1]))
+                    outputs.append(new_output)
+                    if new_output and new_output != "unknown":
+                        queried = True
                 else:
                     outputs.append(transition_output)
                 current_node = next_node
