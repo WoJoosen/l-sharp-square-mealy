@@ -131,7 +131,20 @@ def _benchmark_worker(mealy_machine, algo_type, timeout, result_queue):
             learned_mealy, info = run_lsharp_square(alphabet, sul, eq_oracle, return_data=True, solver_timeout=timeout)
             bisim_fn = bisimilar_with_unknowns
         else: # aalpy_lsharp
-            sul = MealySUL(mealy_machine)
+            class AalpySUL(MealySUL):
+                def query(self, word: tuple):
+                    self.pre()
+                    for letter in word:
+                        self.step(letter)
+                    out = self.post()
+                    self.num_queries += 1
+                    self.num_successful_queries += 1
+                    self.num_steps += len(word)
+                    if isinstance(out, (list, tuple)) and len(out) > 0 and all(val in (None, "unknown") for val in out):
+                        self.num_successful_queries -= 1
+                    return out
+
+            sul = AalpySUL(mealy_machine)
             eq_oracle = PerfectKnowledgeEqOracle(alphabet, sul, mealy_machine)
             learned_mealy, info = run_Lsharp(alphabet, sul, eq_oracle, automaton_type="mealy", return_data=True)
             bisim_fn = bisimilar

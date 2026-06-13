@@ -95,7 +95,20 @@ def benchmark_aalpy_lsharp(model_path, timeout=120):
         mealy = load_automaton_from_file(model_path, "mealy")
         alphabet = list(mealy.initial_state.transitions.keys())
         
-        sul = MealySUL(mealy)
+        class AalpySUL(MealySUL):
+            def query(self, word: tuple):
+                self.pre()
+                for letter in word:
+                    self.step(letter)
+                out = self.post()
+                self.num_queries += 1
+                self.num_successful_queries += 1
+                self.num_steps += len(word)
+                if isinstance(out, (list, tuple)) and len(out) > 0 and all(val in (None, "unknown") for val in out):
+                    self.num_successful_queries -= 1
+                return out
+
+        sul = AalpySUL(mealy)
         eq_oracle = PerfectKnowledgeEqOracle(alphabet, sul, mealy)
         
         learned_mealy, info = run_Lsharp(
